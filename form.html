@@ -1,0 +1,120 @@
+3. В большое текстовое поле вставь **код формы**:
+
+> **ВАЖНО**: В этом коде замени `YOUR_ALBATO_WEBHOOK_URL` на **свою настоящую ссылку из Albato** (она начинается с `https://hook.albato.ru/...`). Это секретный ключ, который нельзя публиковать в открытом виде, поэтому:
+> - **Сейчас замени его на реальный**, но имей в виду, что если твой репозиторий публичный — вебхук увидят все. Это не страшно для тестового проекта, но для реального продакшена нужно прятать ключи. Я покажу как позже. 
+> - Либо **сейчас напиши любой левый URL**, а после клонирования заменишь.
+
+Готовый код (вставь его):
+
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Сбор заявок</title>
+ <style>
+     body {
+         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+         background: #f4f6f9;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         min-height: 100vh;
+         margin: 0;
+     }
+     .container {
+         background: white;
+         padding: 40px;
+         border-radius: 12px;
+         box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+         max-width: 500px;
+         width: 100%;
+     }
+     h2 {
+         margin-top: 0;
+         color: #2c3e50;
+     }
+     input, textarea {
+         width: 100%;
+         padding: 12px;
+         margin: 10px 0;
+         border: 1px solid #ddd;
+         border-radius: 8px;
+         font-size: 16px;
+         box-sizing: border-box;
+     }
+     button {
+         background: #3498db;
+         color: white;
+         padding: 14px;
+         border: none;
+         width: 100%;
+         border-radius: 8px;
+         font-size: 18px;
+         cursor: pointer;
+         transition: background 0.3s;
+     }
+     button:hover {
+         background: #2980b9;
+     }
+     .success {
+         color: #27ae60;
+         margin-top: 10px;
+         display: none;
+     }
+ </style>
+</head>
+<body>
+ <div class="container">
+     <h2>Оставьте заявку 📩</h2>
+     <form id="leadForm">
+         <input type="text" id="name" placeholder="Ваше имя" required>
+         <input type="email" id="email" placeholder="Ваш Email" required>
+         <input type="tel" id="phone" placeholder="Ваш телефон">
+         <textarea id="message" placeholder="Сообщение" rows="4"></textarea>
+         <button type="submit">Отправить</button>
+     </form>
+     <div class="success" id="successMessage">✅ Заявка отправлена! Мы свяжемся с вами.</div>
+ </div>
+
+ <script>
+     // ⚠️ ЗАМЕНИ ЭТУ ССЫЛКУ НА СВОЮ РЕАЛЬНУЮ ИЗ ALBATO
+     const WEBHOOK_URL = 'YOUR_ALBATO_WEBHOOK_URL';
+
+     const form = document.getElementById('leadForm');
+     const successMessage = document.getElementById('successMessage');
+
+     form.addEventListener('submit', async function(e) {
+         e.preventDefault();
+
+         const data = {
+             name: document.getElementById('name').value,
+             email: document.getElementById('email').value,
+             phone: document.getElementById('phone').value,
+             message: document.getElementById('message').value
+         };
+
+         try {
+             const response = await fetch(WEBHOOK_URL, {
+                 method: 'POST',
+                 headers: { 'Content-Type': 'application/json' },
+                 body: JSON.stringify(data)
+             });
+
+             if (response.ok) {
+                 successMessage.style.display = 'block';
+                 form.reset();
+                 setTimeout(() => {
+                     successMessage.style.display = 'none';
+                 }, 5000);
+             } else {
+                 alert('❌ Ошибка сервера: ' + response.status);
+             }
+         } catch (error) {
+             alert('❌ Ошибка сети: ' + error.message);
+         }
+     });
+ </script>
+</body>
+</html>
