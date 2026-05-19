@@ -1,11 +1,3 @@
-3. В большое текстовое поле вставь **код формы**:
-
-> **ВАЖНО**: В этом коде замени `YOUR_ALBATO_WEBHOOK_URL` на **свою настоящую ссылку из Albato** (она начинается с `https://hook.albato.ru/...`). Это секретный ключ, который нельзя публиковать в открытом виде, поэтому:
-> - **Сейчас замени его на реальный**, но имей в виду, что если твой репозиторий публичный — вебхук увидят все. Это не страшно для тестового проекта, но для реального продакшена нужно прятать ключи. Я покажу как позже. 
-> - Либо **сейчас напиши любой левый URL**, а после клонирования заменишь.
-
-Готовый код (вставь его):
-
 ```html
 <!DOCTYPE html>
 <html lang="ru">
@@ -79,8 +71,8 @@
  </div>
 
  <script>
-     // ⚠️ ЗАМЕНИ ЭТУ ССЫЛКУ НА СВОЮ РЕАЛЬНУЮ ИЗ ALBATO
-     const WEBHOOK_URL = 'YOUR_ALBATO_WEBHOOK_URL';
+     // 
+     const WEBHOOK_URL = 'https://h.albato.ru/wh/38/1lfd9kp/CCoTzHWs5ku57Wo5AsW-I2meNoEUlYbej8AjEF_dpaM/';
 
      const form = document.getElementById('leadForm');
      const successMessage = document.getElementById('successMessage');
